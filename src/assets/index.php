@@ -1,3 +1,48 @@
+<?php
+
+$msg = "";
+$msgClass = "";
+
+if(filter_has_var(INPUT_POST, "submit")){
+    //GET FORM DATA
+    $name =  htmlspecialchars($_POST["name"]);
+    $email =  htmlspecialchars($_POST["email"]);
+    $message =  htmlspecialchars($_POST["message"]);
+
+    if(!empty($name) && !empty($name) && !empty($message)) {
+        
+        if(filter_var($email, FILTER_VALIDATE_EMAIL)=== false){
+            $msg = "Please use a valid email";
+            $msgClass = "alert-danger";
+        } else {
+            $toEmail = "Frantisek.Demi@gmail.com";
+            $subject = "Message from" .$name; 
+            $body = "<h2>Message</h2>
+                     <h4>Name</h4> <p>".$name."</p>
+                     <h4>Email</h4> <p>".$email."</p>
+                     <h4>Message</h4> <p>".$message."</p>";
+            $headers = "MIME-Version 1.0" ."\r\n";
+            $headers .= "Content-Type:text/html;charset=UTF-8" ."\r\n";
+            $headers .= "From: " .$name. "<".$email.">". "\r\n";
+
+            if(mail($toEmail, $subject, $body, $headers)){
+                $msg = "Your email was sent";
+                $msgClass = "alert-success";
+            } else {
+                $msg = "Your email was not sent";
+                $msgClass = "alert-danger";
+            }
+        }
+    }else {
+        //FAILED
+        $msg = "Please fill in all fields";
+        $msgClass = "alert-danger";
+    }
+}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +51,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/index.css" />
+  <link rel="stylesheet" href="css/index.css" />
   <title>Personal Portfolio</title>
 </head>
 <body>
@@ -44,6 +89,7 @@
         <div class="container"> 
             <div class="text">
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus excepturi provident ad est, distinctio repellendus qui unde sapiente eaque eum numquam adipisci labore laudantium non mollitia.</p>
+                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Labore quaerat dignissimos, sint, ab totam architecto numquam veritatis quae quibusdam voluptas voluptates cum fuga reprehenderit inventore. Repellat fugiat aliquid vel. Voluptatum laborum iste quis accusamus consectetur culpa velit aperiam perferendis optio, commodi numquam harum laudantium debitis, qui ab veniam dolores sunt?</p>
             </div>
     </section>
 
@@ -78,7 +124,7 @@
                 <p>HTML</p>
                 <div class="progress">
                     <div class = "htmlbar">
-                        <p>60%</p>
+                        <p>80%</p>
                     </div>
                 </div>
             </div>
@@ -87,7 +133,7 @@
                 <p>CSS</p>
                 <div class="progress">
                     <div class = "cssbar">
-                        <p>40%</p>
+                        <p>70%</p>
                     </div>
                 </div>
             </div>
@@ -95,8 +141,8 @@
             <div class="skills">
                 <p>JavaScript</p>
                 <div class="progress">
-                    <div class = "javabar">
-                        <p>20%</p>
+                    <div class = "jsbar">
+                        <p>50%</p>
                     </div>
                 </div>
             </div>
@@ -213,9 +259,9 @@
             <div class="find">
                 <h3>FIND ME HERE</h3>
                     <div class="icons">
-                            <i class="fab fa-github"></i> 
-                            <i class="fab fa-linkedin"></i> 
-                            <i class="fab fa-facebook"></i>            
+                        <i class="fab fa-github"></i>
+                        <i class="fab fa-linkedin"></i> 
+                        <i class="fab fa-facebook"></i>            
                     </div>
         </div>
         </div>
@@ -224,11 +270,14 @@
     <section class="form-bg">
         <div class="container">
             <h2 id="contact">Contact me</h2>
-            <form action="#" method="post">
-                <input class="form" type="text" name="name" placeholder="Enter your name.."> 
-                <input class="form" type="text" name="email" placeholder="Enter your e-mail..">                 
-                <textarea class="message" name="message" rows="5" placeholder="Write your message here.."></textarea>
-                <button class="button" type="button" a href="#">Send me message</button>  
+            <?php if($msg != "") :?>
+                <div class="alert <?php echo $msgClass; ?>"><?php echo $msg ;?></div>
+            <?php endif ; ?>
+            <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
+                <input class="form" type="text" name="name" placeholder="Enter your name.." value="<?php echo isset($_POST["name"]) ? $name : ""; ?>"> 
+                <input class="form" type="text" name="email" placeholder="Enter your e-mail.." value="<?php echo isset($_POST["email"]) ? $email : ""; ?>">                 
+                <textarea class="message" name="message" rows="5" placeholder="Write your message here.."> <?php echo isset($_POST["message"]) ? $message : ""; ?></textarea>
+                <button class="button" type="submit" name="submit" >Send me message</button>  
             </form>            
         </div>
     </section>
@@ -248,6 +297,9 @@
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
     AOS.init();
+  </script>
+  <script>
+  
   </script>
 </body>
 </html>

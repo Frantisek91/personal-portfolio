@@ -3,7 +3,6 @@
     margin: 0;
     font-size: 18px;
     scroll-behavior: smooth;
-    height: 100vh;
     
 
 
@@ -12,13 +11,13 @@
         background-image: url("../img/background.jpg");
         background-size: cover;
         background-position: center;
-        height: 650px;
+        height: 90vh;
         color:$light-grey;
         
         .overlay {
             background-color:$gray-800;
             opacity: .7;
-            height: 650px;
+            height: 90vh;
 
             .intro {
                 text-align: center;
@@ -36,7 +35,7 @@
         
         
         .text {            
-            height: 200px;
+            height: 50vh;
             text-align: center;
             font-size: 2em;
             padding-top: 1em;
@@ -76,8 +75,9 @@
             }
 
             .htmlbar {
-                width: 60%;
+                width: 80%;
                 background-color: $gray-800;
+                animation: html 2s;
                 p {
                     color: white;
                     font-size:.7em;
@@ -85,9 +85,19 @@
                 } 
             }
 
+            @keyframes html {
+                0%{
+                    width: 0%;
+                }
+                100%{
+                    width: 80%;
+                }                
+            }
+
             .cssbar {
-                width: 40%; 
+                width: 70%; 
                 background-color: $gray-800;
+                animation: css 2s;
                 p {
                     color: white;
                     font-size:.7em;
@@ -95,32 +105,58 @@
                 }
             }
 
-            .javabar {
-                width: 20%;
+            @keyframes css {
+                0%{
+                    width: 0%;
+                }
+                100%{
+                    width: 70%;
+                }                
+            }
+
+            .jsbar {
+                width: 50%;
                 background-color: $gray-800;
+                animation: js 2s;
                 p {
                     color: white;
                     font-size:.7em;
                     text-align: center;
                 }
+            }
+
+            @keyframes js {
+                0%{
+                    width: 0%;
+                }
+                100%{
+                    width: 50%;
+                }                
             }
 
             .paintbar {
                 width: 90%;
                 background-color: $gray-800;
+                animation: paint 2s;
                 p {
                     color: white;
                     font-size:.7em;
                     text-align: center;
                 }
             }
+
+            @keyframes paint {
+                0%{
+                    width: 0%;
+                }
+                100%{
+                    width: 90%;
+                }                
+            }
         }
     
-        .portfolio {   
-
-      
-        }
-        .about-me{
+    
+        .about-me{            
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -128,6 +164,7 @@
 
             @media all and (min-width: 768px) {
                 flex-direction: row;
+                height: 50vh;
                 
             }                    
 
@@ -153,7 +190,7 @@
             button {
                 width: 50%; 
                 align-self: center;
-                background-color: $#343a40-800;  
+                background-color: $gray-800;  
                 color: $light-grey;  
                 border-radius: 7px;       
             }
